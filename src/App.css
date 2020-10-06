@@ -1,3 +1,4 @@
+/* Header Styling */
 .Header {
   align-items: center;
   display: flex;
@@ -9,7 +10,8 @@
 
 .Header nav a {
   color: black;
-  font-weight: bold;
+  font-size: 24px;
+  font-weight: normal;
   margin: 0 10px;
   text-decoration: none;
 }
