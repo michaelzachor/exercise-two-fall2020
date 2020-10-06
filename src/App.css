@@ -4,7 +4,7 @@
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
-  max-width: 800px;
+  max-width: 1200px;
   padding: 0 25px;
 }
 
@@ -23,6 +23,67 @@
 /* Home Styling */
 .Home {
   margin: 0 auto;
-  max-width: 800px;
+  max-width: 1200px;
   padding: 0 25px;
+}
+
+.Home h2 {
+  font-size: 48px;
+}
+
+.Home h2 span {
+  color: magenta;
+}
+
+.WeatherInfo {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.WeatherInfo_Basic {
+  border: 2px solid black;
+  flex-basis: 30%;
+  padding: 30px;
+  text-align: center;
+}
+
+.WeatherInfo_Type {
+  font-size: 60px;
+  margin: 0;
+  margin-bottom: 30px;
+}
+
+.WeatherInfo_Temp {
+  font-size: 84px;
+  margin: 0;
+}
+
+.WeatherInfo_Temp_Small {
+  font-size: 36px;
+  margin: 0;
+  margin-bottom: 30px;
+}
+
+.WeatherInfo_Extra {
+  border: 2px solid black;
+  border-left: none;
+  display: flex;
+  flex-basis: 70%;
+  padding: 30px;
+}
+
+.WeatherInfo_Extra_Column {
+  flex-basis: 50%;
+}
+
+.WeatherInfo_Image {
+  font-size: 150px;
+}
+
+.Label {
+  font-size: 16px;
+  letter-spacing: 2px;
+  margin: 0;
+  text-transform: uppercase;
 }
