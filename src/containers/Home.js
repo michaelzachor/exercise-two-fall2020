@@ -18,7 +18,7 @@ const weatherKey = `c60878fca060ccd07165aaf1f13d5ee8`;
 function Home() {
     const history = useHistory();
     const [weatherData, setWeatherData] = useState(null);
-    const [city, setCity] = useState('Toronto');
+    const [city, setCity] = useState('Brooklyn');
 
     // const [updated, setUpdated] = useState(0);
     // useEffect(() => {
@@ -33,7 +33,7 @@ function Home() {
     useEffect(() => {
         axios
         .get(
-            `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weatherKey}`
+            `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${weatherKey}`
             )
         .then(function (response) {
             //handle success
@@ -61,7 +61,9 @@ function Home() {
 
     const { 
         cloudiness, 
+        cloudinessValue,
         currentTemp, 
+        currentTempValue,
         highTemp, 
         humidity, 
         lowTemp, 
@@ -69,7 +71,9 @@ function Home() {
         windSpeed,
     } = useMemo(() => {
         let cloudiness = '';
+        let cloudinessValue;
         let currentTemp = '';
+        let currentTempValue = '';
         let highTemp = '';
         let humidity = '';
         let lowTemp = '';
@@ -80,16 +84,20 @@ function Home() {
             //if there is weatherData, deep dive for the info we want
             //if not, it's still null like we set it to above
             cloudiness = `${weatherData.clouds.all}%`;
-            currentTemp = `${weatherData.main.temp}`;
-            highTemp = `${weatherData.main.temp_max}`;
+            cloudinessValue = weatherData.clouds.all;
+            currentTemp = `${Math.round(weatherData.main.temp)}°`;
+            currentTempValue = Math.round(weatherData.main.temp);
+            highTemp = `${Math.round(weatherData.main.temp_max)}°`;
             humidity = `${weatherData.main.humidity}%`;
-            lowTemp = `${weatherData.main.temp_min}`;
+            lowTemp = `${Math.round(weatherData.main.temp_min)}°`;
             weatherType = `${weatherData.weather[0].description}`
-            windSpeed = `${weatherData.wind.speed}km/h`;
+            windSpeed = `${weatherData.wind.speed}mph`;
         }
         return {
             cloudiness, 
+            cloudinessValue,
             currentTemp, 
+            currentTempValue,
             highTemp, 
             humidity, 
             lowTemp, 
@@ -98,24 +106,34 @@ function Home() {
         };
     }, [weatherData]);
 
+    //new set state or use memo
+
+    const backgroundColor = useMemo(() => {
+        switch(true) {
+            case currentTempValue > 80:
+                return 'rgba(255, 77, 0, 1)'
+            case currentTempValue > 60:
+                return 'rgba(255, 191, 0, 1)'
+            case currentTempValue > 40:
+                return 'rgba(179, 231, 111, 1)'
+            case currentTempValue <= 40:
+                return 'rgba(136, 199, 255, 1)'
+            default:
+                return 'white'
+        }
+    }, [currentTempValue]);
+
     console.log("weatherData", weatherData);
     //when weatherData updates, update weatherType
-// Displays:
-// Weather Type (ex. Cloudy)
-// Current Temperature
-// High Temperature
-// Low Temperature
-// Cloudiness
-// Humidity
-// Wind Speed
-
+    console.log('backgroundColor', backgroundColor);
     return (
         <>
             <Header />
-            <main className="Home" >
+            <main className="Home">
                 <h2>Weather in <span>{city}</span></h2>
                 <div className="WeatherInfo">
-                    <div className="WeatherInfo_Basic">
+                    <div className="WeatherInfo_Basic" 
+                         style={{ backgroundColor: backgroundColor}}>
                         <div className="WeatherInfo_Image">
                             <WeatherImage weatherType={weatherType} />
                         </div>
