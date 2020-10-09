@@ -102,10 +102,6 @@
     flex-direction: column;
   }
 
-  .Header nav {
-    /* background-color: backgroundColor; */
-  }
-
   .Header nav a {
     font-size: 17px; 
   }

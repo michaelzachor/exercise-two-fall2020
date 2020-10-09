@@ -1,13 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-//useState is current state of app
-//useEffect - run certain code at a certain point of time
-//useMemo - derive a value and store it as a var
 import axios from 'axios';
-//lets us make remote requests
-//use it to make a get request to opeanWeatherAPI
-//we make the request after the page loads b/c the page needs to be ready for us to make the request
-//axios returns a promise (indication to code that there will be a future result)
-//once we get that future result, we can respond via then or catch
 import {useHistory } from 'react-router-dom';
 
 import Header from '../components/Header';
@@ -20,32 +12,18 @@ function Home() {
     const [weatherData, setWeatherData] = useState(null);
     const [city, setCity] = useState('Brooklyn');
 
-    // const [updated, setUpdated] = useState(0);
-    // useEffect(() => {
-    //     setUpdated(updated + 1);
-    //     setCity('Toronto');
-    // }, []);
-    // console.log('updated', updated);
-    // console.log('updatedCount', updatedCount);
-    //empty object inside the default prop
-    // const [backgroundColor, setBackgroundColor] = useState(null);
-    // const [city, setCity] = useState(null);
     useEffect(() => {
         axios
         .get(
             `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${weatherKey}`
             )
         .then(function (response) {
-            //handle success
             const weather = response.data;
             setWeatherData(weather);
         })
         .catch(function (error) {
-            //handle error
             console.log(error);
         })
-        // setBackgroundColor('#e5e5e5');
-        // setCity("Seoul");
     }, [city]);
 
     useEffect(() => {
@@ -60,8 +38,7 @@ function Home() {
     }, [history]);
 
     const { 
-        cloudiness, 
-        cloudinessValue,
+        cloudiness,
         currentTemp, 
         currentTempValue,
         highTemp, 
@@ -71,7 +48,6 @@ function Home() {
         windSpeed,
     } = useMemo(() => {
         let cloudiness = '';
-        let cloudinessValue;
         let currentTemp = '';
         let currentTempValue = '';
         let highTemp = '';
@@ -81,10 +57,7 @@ function Home() {
         let windSpeed = '';
 
         if(weatherData) {
-            //if there is weatherData, deep dive for the info we want
-            //if not, it's still null like we set it to above
             cloudiness = `${weatherData.clouds.all}%`;
-            cloudinessValue = weatherData.clouds.all;
             currentTemp = `${Math.round(weatherData.main.temp)}°`;
             currentTempValue = Math.round(weatherData.main.temp);
             highTemp = `${Math.round(weatherData.main.temp_max)}°`;
@@ -94,8 +67,7 @@ function Home() {
             windSpeed = `${weatherData.wind.speed}mph`;
         }
         return {
-            cloudiness, 
-            cloudinessValue,
+            cloudiness,
             currentTemp, 
             currentTempValue,
             highTemp, 
@@ -106,7 +78,6 @@ function Home() {
         };
     }, [weatherData]);
 
-    //new set state or use memo
 
     const backgroundColor = useMemo(() => {
         switch(true) {
@@ -124,8 +95,6 @@ function Home() {
     }, [currentTempValue]);
 
     console.log("weatherData", weatherData);
-    //when weatherData updates, update weatherType
-    console.log('backgroundColor', backgroundColor);
     return (
         <>
             <Header />
